@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contact Us</title>
+</head>
+<body>
+  <h1>Contact Form</h1>
+  <form id="contactForm">
+    <label>Name: <input type="text" name="name" required /></label><br/>
+    <label>Email: <input type="email" name="email" required /></label><br/>
+    <label>Message:<br/>
+      <textarea name="message" required></textarea>
+    </label><br/>
+    <button type="submit">Send</button>
+  </form>
+
+  <div id="response"></div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('YOUR_API_GATEWAY_ENDPOINT/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        if(response.ok){
+          document.getElementById('response').innerText = "Thank you for contacting us!";
+          form.reset();
+        } else {
+          document.getElementById('response').innerText = "Error: " + (result.error || "Unknown error");
+        }
+      } catch (err) {
+        document.getElementById('response').innerText = "Network error";
+      }
+    });
+  </script>
+</body>
+</html>
