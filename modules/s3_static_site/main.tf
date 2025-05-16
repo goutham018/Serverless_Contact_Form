@@ -44,7 +44,7 @@ resource "aws_s3_object" "error_html" {
 }
 
 resource "aws_s3_bucket_public_access_block" "allow_public" {
-  bucket                  = aws_s3_bucket.frontend.id
+  bucket                  = aws_s3_bucket.static_site.id
   block_public_acls       = false
   block_public_policy     = false
   ignore_public_acls      = false
